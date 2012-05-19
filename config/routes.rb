@@ -2,6 +2,11 @@ SampleApp::Application.routes.draw do
 
   # to make   "/users/1" work , need to remove  get "users/new"
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
+  match '/signup',  to: 'users#new'
+  match '/signin',  to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
+
   #get "static_pages/home"
   # equivalent to :          match '/',    to: 'static_pages#home'
   # You can have the root of your site routed with "root"
@@ -9,7 +14,6 @@ SampleApp::Application.routes.draw do
   # root :to => 'welcome#index'
 
   root to: 'static_pages#home'
-  match '/signup',  to: 'users#new'
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
   match '/contact', to: 'static_pages#contact'
