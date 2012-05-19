@@ -22,6 +22,17 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
+
+  if Rails.env.test?
+    def password_digest=(digest)
+      @password_digest = digest
+    end
+
+    def password_digest
+      @password_digest
+    end
+  end
+
 end
 
 
