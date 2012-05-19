@@ -1,6 +1,7 @@
 SampleApp::Application.routes.draw do
-  get "users/new"
 
+  # to make   "/users/1" work , need to remove  get "users/new"
+  resources :users
   #get "static_pages/home"
   # equivalent to :          match '/',    to: 'static_pages#home'
   # You can have the root of your site routed with "root"

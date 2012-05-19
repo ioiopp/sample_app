@@ -29,4 +29,7 @@ group :test do
   gem 'win32console', '1.3.0'
   gem 'guard-spork', '0.3.2'
   gem 'spork', '0.9.0'
+  #  experience shows that user factories are a more convenient way
+  #to define user objects and insert them in the database.
+  gem 'factory_girl_rails', "~> 3.0"
 end
