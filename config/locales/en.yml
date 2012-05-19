@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  # to avoid duplicate information when sign-up fails
+  activerecord:
+    attributes:
+      user:
+        password_digest: "Password"
