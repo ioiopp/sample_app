@@ -32,4 +32,6 @@ group :test do
   #  experience shows that user factories are a more convenient way
   #to define user objects and insert them in the database.
   gem 'factory_girl_rails', "~> 3.0"
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
 end
