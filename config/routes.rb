@@ -1,7 +1,11 @@
 SampleApp::Application.routes.draw do
 
   # to make   "/users/1" work , need to remove  get "users/new"
-  resources :users
+  resources :users do
+    member do
+      get 'confirm_destroy'
+    end
+  end
   resources :sessions, only: [:new, :create, :destroy]
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'

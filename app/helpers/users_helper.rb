@@ -7,4 +7,9 @@ module UsersHelper
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}"
     image_tag(gravatar_url, alt: user.name, class: "gravatar")
   end
+
+  def link_to_destroy(name, url, fallback_url)
+    link_to_function name, "confirm_destroy(this, '#{url}')", :href => fallback_url
+  end
+
 end
