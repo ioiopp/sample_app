@@ -9,6 +9,8 @@ describe "Authentication" do
 
     it { should have_selector('h1',    text: 'Sign in') }
     it { should have_selector('title', text: 'Sign in') }
+    it { should_not have_link('Profile') }
+    it { should_not have_link('Settings') }
   end
 
   describe "signin" do
@@ -19,6 +21,8 @@ describe "Authentication" do
 
       it { should have_selector('title', text: 'Sign in') }
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
+      it { should_not have_link('Profile') }
+      it { should_not have_link('Settings') }
 
       describe "after visiting another page" do
         before { click_link "Home" }
@@ -42,6 +46,8 @@ describe "Authentication" do
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
+        it { should_not have_link('Profile') }
+        it { should_not have_link('Settings') }
       end
 
     end
@@ -51,18 +57,40 @@ describe "Authentication" do
     describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
 
+      describe "in the Users controller" do
+
+        describe "visiting the edit page" do
+          before { visit edit_user_path(user) }
+          it { should have_selector('title', text: 'Sign in') }
+        end
+
+        describe "submitting to the update action" do
+          before { put user_path(user) }
+          specify { response.should redirect_to(signin_path) }
+        end
+      end
+
       describe "when attempting to visit a protected page" do
         before do
-          visit edit_user_path(user)
-          fill_in "session[email]", with: user.email
-          fill_in "session[password]", with: user.password
-          click_button "Sign in"
+           visit edit_user_path(user)
+           sign_in user
         end
 
         describe "after signing in" do
 
           it "should render the desired protected page" do
+            page.should have_selector('h1', text: 'Update your profile')
             page.should have_selector('title', text: 'Edit user')
+          end
+
+          describe "when signing in again" do
+            before do
+              sign_in user
+            end
+
+            it "should render the default (profile) page" do
+              page.should have_selector('title', text: user.name)
+            end
           end
         end
       end
